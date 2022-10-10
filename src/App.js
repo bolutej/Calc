@@ -1,79 +1,69 @@
 import React from "react";
-import {useState} from "react";
+import { useState } from "react";
 
 function App() {
-
   const [all, setAll] = useState("");
 
-  const eachops = ['/', '*', '+', '-', '.'];
+  const eachops = ["/", "*", "+", "-", "."];
 
-  const handleUpdate = value => {
+  const handleUpdate = (value) => {
     if (
-      eachops.includes(value) && all === '' || 
-      eachops.includes(value) && eachops.includes(all.slice(-1)
-      )
+      (eachops.includes(value) && all === "") ||
+      (eachops.includes(value) && eachops.includes(all.slice(-1)))
     ) {
-      return
+      return;
     }
-    setAll(all + value)
-  }
-
+    setAll(all + value);
+  };
 
   const createDigits = () => {
-    const digits =[];
-    
+    const digits = [];
+
     [...Array(10)].forEach((_, i) => {
-        digits.push(
-            <button 
-            onClick={ () => handleUpdate(i.toString())}key={i}>{i}</button>
-        )
-    })
+      digits.push(
+        <button onClick={() => handleUpdate(i.toString())} key={i}>
+          {i}
+        </button>
+      );
+    });
     return digits;
-}
+  };
 
-const calculate = () => {
-  setAll(eval(all).toString());
-}
+  const calculate = () => {
+    // eslint-disable-next-line no-eval
+    setAll(eval(all).toString());
+  };
 
-const handleDelete = () => {
-  if(all === '') {
-    return;
-  }
-  const value = all.slice(0, -1);
+  const handleDelete = () => {
+    if (all === "") {
+      return;
+    }
+    const value = all.slice(0, -1);
 
-  setAll(value);
-}
+    setAll(value);
+  };
   return (
-    <div className='App'>
-        {/* <div className='row'>
-            <div className='col-12'>
-                <h1 className='display-6 fw-bolder text-center text-primary'>CALCULATOR</h1>
-                <hr/>
-            </div>
-        </div> */}
-        <div className='calculator'>
-            <div className='display'>
-                { all || "0"}
-            </div>
+    <div className="App">
+      <div className="calculator">
+        <div className="display">{all || "0"}</div>
 
-            <div className='operators'>
-                <button onClick={ () => handleUpdate('/')}>/</button>
-                <button onClick={ () => handleUpdate('*')}>*</button>
-                <button onClick={ () => handleUpdate('+')}>+</button>
-                <button onClick={ () => handleUpdate('-')}>-</button>
+        <div className="operators">
+          <button onClick={() => handleUpdate("/")}>/</button>
+          <button onClick={() => handleUpdate("*")}>*</button>
+          <button onClick={() => handleUpdate("+")}>+</button>
+          <button onClick={() => handleUpdate("-")}>-</button>
 
-                <button onClick={handleDelete}>Clear</button>
-            </div>
-
-            <div className='digits'>
-                {createDigits()}
-                <button onClick={ () => handleUpdate('0')}>0</button>
-                <button onClick={ () => handleUpdate('.')}>.</button>
-
-                <button onClick={calculate}>=</button>
-            </div>
+          <button onClick={handleDelete}>Clear</button>
         </div>
-        
+
+        <div className="digits">
+          {createDigits()}
+          <button onClick={() => handleUpdate("0")}>0</button>
+          <button onClick={() => handleUpdate(".")}>.</button>
+
+          <button onClick={calculate}>=</button>
+        </div>
+      </div>
     </div>
   );
 }
